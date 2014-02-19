@@ -1,16 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#00000000"
+    android:onClick="clickOnLayout"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <RelativeLayout
+        android:id="@+id/whitedot_main_rl"
+        android:layout_width="240dip"
+        android:layout_height="240dip"
+        android:layout_centerInParent="true"
+        android:onClick="clickOnLayout"
+        android:background="@drawable/background" >
+		
+        <ImageView
+            android:id="@+id/whitedot_up_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/icon_guesture_selector"
+            android:onClick="clickOnGuesture" />
+
+        <ImageView
+            android:id="@+id/whitedot_middle_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_favorite_selector"
+            android:onClick="clickOnFavorite" />
+
+        <ImageView
+            android:id="@+id/whitedot_middle_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_device_selector"
+            android:onClick="clickOnDevice" />
+
+        <ImageView
+            android:id="@+id/whitedot_down_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/icon_mainscreen_selector"
+            android:onClick="clickOnMainscreen" />
+    </RelativeLayout>
 
 </RelativeLayout>

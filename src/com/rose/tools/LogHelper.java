@@ -91,6 +91,41 @@ public class LogHelper {
 		}
 	}
 	
+	public static void d(Object object) {
+		if(LOG_SWITCH){
+			String tag = getClassName();
+			Log.d(tag, object == null ? "" : object.toString());
+		}
+	}
+	
+	public static void v(Object object) {
+		if(LOG_SWITCH){
+			String tag = getClassName();
+			Log.v(tag, object == null ? "" : object.toString());
+		}
+	}
+	
+	public static void i(Object object) {
+		if(LOG_SWITCH){
+			String tag = getClassName();
+			Log.i(tag, object == null ? "" : object.toString());
+		}
+	}
+	
+	public static void w(Object object) {
+		if(LOG_SWITCH){
+			String tag = getClassName();
+			Log.w(tag, object == null ? "" : object.toString());
+		}
+	}
+	
+	public static void e(Object object) {
+		if(LOG_SWITCH){
+			String tag = getClassName();
+			Log.e(tag, object == null ? "" : object.toString());
+		}
+	}
+	
 	private static String getCallHierarchy(){
 		String result = "";
         StackTraceElement[] trace = (new Exception()).getStackTrace();

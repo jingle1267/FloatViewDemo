@@ -3,6 +3,7 @@ package com.rose.main;
 import com.rose.tools.LogHelper;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Binder;
@@ -11,6 +12,8 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -20,19 +23,36 @@ import android.widget.ImageView;
  * @author jingle1267@163.com
  *
  */
-public class FloatService extends Service implements OnTouchListener{
+public class FloatService extends Service implements OnTouchListener, OnClickListener, OnLongClickListener{
 
+	private static final String FLAG_FLOAT_VIEW_VISIBLE = "float_view_visible";
+	
 	private WindowManager windowManager;
 	private WindowManager.LayoutParams layoutParams;
 	private ImageView imageView;
+	private boolean isLongClick = false;
 	
 	private int width, height;
 	private int viewWidth = 87, viewHeight = 87;
+	private int statusBarHeight = 0;
 	
+	private float preX, preY;
 	private float rawX, rawY;
 	private float x, y;
+	private float moveLength;
 	
 	private IBinder binder = new FloatBinder();
+	
+	/**
+	 * Float View Controller
+	 * @param context 
+	 * @param isShow whether show float view or not
+	 */
+	public static void startService(Context context, boolean isShow) {
+		Intent intent = new Intent(context, FloatService.class);
+		intent.putExtra(FLAG_FLOAT_VIEW_VISIBLE, isShow);
+		context.startService(intent);
+	}
 	
 	/* (non-Javadoc)
 	 * @see android.app.Service#onBind(android.content.Intent)
@@ -61,7 +81,19 @@ public class FloatService extends Service implements OnTouchListener{
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		return super.onStartCommand(intent, flags, startId);
+		if (intent == null) {
+			return START_STICKY;
+		}
+		if (intent.getBooleanExtra(FLAG_FLOAT_VIEW_VISIBLE, false)) {
+			if (imageView != null) {
+				imageView.setVisibility(View.VISIBLE);
+			}
+		} else {
+			if (imageView != null) {
+				imageView.setVisibility(View.INVISIBLE);
+			}
+		}
+		return START_STICKY;
 	}
 
 	public class FloatBinder extends Binder {
@@ -72,6 +104,9 @@ public class FloatService extends Service implements OnTouchListener{
 	
 	private void createFloatView() {
 		LogHelper.print();
+		statusBarHeight = getStatusBarHeight();
+		LogHelper.print("statusBarHeight : " + statusBarHeight);
+		
 		windowManager = (WindowManager) getApplicationContext().getSystemService(WINDOW_SERVICE);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		windowManager.getDefaultDisplay().getMetrics(displayMetrics);
@@ -94,7 +129,9 @@ public class FloatService extends Service implements OnTouchListener{
 		imageView = new ImageView(getApplicationContext());
 		imageView.setImageResource(R.drawable.launcher_icon);
 		imageView.setOnTouchListener(this);
-
+		imageView.setOnClickListener(this);
+		imageView.setOnLongClickListener(this);
+		
 		
 		if (imageView.getParent() == null) {
 			windowManager.addView(imageView, layoutParams);
@@ -110,14 +147,18 @@ public class FloatService extends Service implements OnTouchListener{
 		// TODO Auto-generated method stub
 		rawX = event.getRawX();
 		rawY = event.getRawY();
-		LogHelper.print("=== rawX - rawY : " + rawX + " - " + rawY);
+		LogHelper.i("=== rawX - rawY : " + rawX + " - " + rawY);
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			x = event.getX();
 			y = event.getY();
+			preX = rawX;
+			preY = rawY;
+			LogHelper.i("=== x - y : " + x + " - " + y);
 			break;
 		case MotionEvent.ACTION_MOVE:
 			updatePosition();
+			moveLength = (float) Math.sqrt((rawX - preX) * (rawX - preX) + (rawY - preY) * (rawY - preY));
 			break;
 		case MotionEvent.ACTION_UP:
 			updatePosition();
@@ -137,9 +178,9 @@ public class FloatService extends Service implements OnTouchListener{
 	}
 	
 	private void updatePosition() {
-		layoutParams.x = (int) rawX - width / 2;//(int) (rawX - x);
-		layoutParams.y = (int) rawY - height / 2;//(int) (rawY - y);
-		LogHelper.print("==== params x - y : " + layoutParams.x + " - " + layoutParams.y);
+		layoutParams.x = (int) rawX - width / 2 - (int) x + viewWidth / 2;
+		layoutParams.y = (int) rawY - height / 2 - (int) y + viewHeight / 2 - statusBarHeight / 2;
+		LogHelper.i("==== params x - y : " + layoutParams.x + " - " + layoutParams.y);
 		windowManager.updateViewLayout(imageView, layoutParams);
 	}
 	
@@ -150,6 +191,59 @@ public class FloatService extends Service implements OnTouchListener{
 			layoutParams.gravity = Gravity.LEFT;
 		}
 		windowManager.updateViewLayout(imageView, layoutParams);
+	}
+	
+	/**
+	 * 获取状态栏高度
+	 * 
+	 * @return
+	 */
+	public int getStatusBarHeight() {
+		Class<?> c = null;
+		Object obj = null;
+		java.lang.reflect.Field field = null;
+		int x = 0;
+		int statusBarHeight = 0;
+		try {
+			c = Class.forName("com.android.internal.R$dimen");
+			obj = c.newInstance();
+			field = c.getField("status_bar_height");
+			x = Integer.parseInt(field.get(obj).toString());
+			statusBarHeight = getResources().getDimensionPixelSize(x);
+			return statusBarHeight;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return statusBarHeight;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.view.View.OnLongClickListener#onLongClick(android.view.View)
+	 */
+	@Override
+	public boolean onLongClick(View v) {
+		// TODO Auto-generated method stub
+		LogHelper.print();
+		isLongClick = true;
+		if (moveLength < 10) {
+			SettingActivity.startActivity(getApplicationContext());
+		}
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (isLongClick) {
+			isLongClick = false;
+		} else {
+			LogHelper.print();
+			// FloatService.startService(getApplicationContext(), false);
+			MainActivity.startActivity(getApplicationContext());
+		}
 	}
 	
 }
