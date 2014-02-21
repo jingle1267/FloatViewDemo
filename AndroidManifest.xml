@@ -35,6 +35,11 @@
             android:theme="@android:style/Theme.Translucent" 
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.rose.main.AppListActivity"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="@string/app_list" >
+        </activity>
         <service android:name="FloatService" android:enabled="true"></service>
     </application>
 

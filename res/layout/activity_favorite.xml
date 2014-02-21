@@ -11,7 +11,7 @@
     tools:context=".FavoriteActivity" >
 
     <RelativeLayout
-        android:id="@+id/whitedot_main_rl"
+        android:id="@+id/group_layout"
         android:layout_width="240dip"
         android:layout_height="240dip"
         android:padding="10dip"

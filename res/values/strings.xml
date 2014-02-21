@@ -4,5 +4,7 @@
     <string name="app_name">FloatViewDemo</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="all_app">All applications:</string>
+    <string name="app_list">Please choose your application:</string>
 
 </resources>
