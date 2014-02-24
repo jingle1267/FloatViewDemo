@@ -2,23 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rose.main"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
-        android:allowBackup="true"
         android:name="com.rose.main.FloatApplication"
+        android:allowBackup="true"
         android:icon="@drawable/launcher_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.rose.main.SettingActivity"
-            android:label="@string/app_name" >
+            android:label="@string/float_view_setting" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,20 +30,36 @@
         </activity>
         <activity
             android:name="com.rose.main.MainActivity"
-            android:theme="@android:style/Theme.Translucent" 
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent" >
         </activity>
         <activity
             android:name="com.rose.main.FavoriteActivity"
-            android:theme="@android:style/Theme.Translucent" 
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
+        <activity
+            android:name="com.rose.main.DeviceActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent" >
         </activity>
         <activity
             android:name="com.rose.main.AppListActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:label="@string/app_list" >
+            android:label="@string/app_list"
+            android:theme="@android:style/Theme.Dialog" >
         </activity>
-        <service android:name="FloatService" android:enabled="true"></service>
+
+        <service
+            android:name="FloatService"
+            android:enabled="true" >
+        </service>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="530ab5e056240bbba718c860" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="test" />
     </application>
 
 </manifest>

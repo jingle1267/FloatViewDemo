@@ -5,6 +5,7 @@
 package com.rose.main;
 
 import com.rose.tools.LogHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class BaseActivity extends Activity {
 		// TODO Auto-generated method stub
 		FloatService.startService(getApplicationContext(), false);
 		super.onResume();
+		MobclickAgent.onResume(this);
 	}
 
 	/* (non-Javadoc)
@@ -45,6 +47,7 @@ public class BaseActivity extends Activity {
 		// TODO Auto-generated method stub
 		FloatService.startService(getApplicationContext(), true);
 		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 	
 	public void clickOnLayout(View view){

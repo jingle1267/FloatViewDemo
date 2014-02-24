@@ -38,5 +38,19 @@ public class SettingHelper {
 		editor.putString(tag, componentName.flattenToString());
 		editor.commit();
 	}
+	
+	public static boolean getAutoAlign(Context context) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(
+				SHARE_PREFERENCES_NAME, Activity.MODE_PRIVATE);
+		return sharedPreferences.getBoolean("is_auto_align", true);
+	}
+	
+	public static void setAutoAlign(Context context, boolean autoAlign) {
+		SharedPreferences mySharedPreferences = context.getSharedPreferences(
+				SHARE_PREFERENCES_NAME, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = mySharedPreferences.edit();
+		editor.putBoolean("is_auto_align", autoAlign);
+		editor.commit();
+	}
 
 }

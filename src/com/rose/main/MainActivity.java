@@ -47,6 +47,8 @@ public class MainActivity extends BaseActivity {
 	
 	public void clickOnDevice(View view){
 		// getWindow().setWindowAnimations(R.anim.zoomout);
+		DeviceActivity.startActivity(view.getContext());
+		finish();
 	}
 	
 	public void clickOnMainscreen(View view){

@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="all_app">All applications:</string>
     <string name="app_list">Please choose your application:</string>
+    <string name="float_view_setting">Settings</string>
 
 </resources>
