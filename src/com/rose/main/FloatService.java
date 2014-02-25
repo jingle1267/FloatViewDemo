@@ -1,5 +1,7 @@
 package com.rose.main;
 
+import com.rose.cache.SettingCache;
+import com.rose.constants.Constants;
 import com.rose.tools.DisplayUtil;
 import com.rose.tools.LogHelper;
 
@@ -8,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
@@ -28,6 +31,7 @@ import android.widget.ImageView;
 public class FloatService extends Service implements OnTouchListener {
 
 	private static final String FLAG_FLOAT_VIEW_VISIBLE = "float_view_visible";
+	public static final String FLAG_FLOAT_VIEW_STYLE = "float_view_style";
 
 	private WindowManager windowManager;
 	private WindowManager.LayoutParams layoutParams;
@@ -40,6 +44,9 @@ public class FloatService extends Service implements OnTouchListener {
 
 	private float rawX, rawY;
 	private float x, y;
+	
+	//动画参数
+	private AnimationDrawable animationDrawable;  
 
 	private IBinder binder = new FloatBinder();
 
@@ -72,6 +79,7 @@ public class FloatService extends Service implements OnTouchListener {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		LogHelper.v("onCreate");
 		LogHelper.print();
 		createFloatView();
 	}
@@ -88,7 +96,7 @@ public class FloatService extends Service implements OnTouchListener {
 		if (intent == null) {
 			return START_STICKY;
 		}
-		if (intent.getBooleanExtra(FLAG_FLOAT_VIEW_VISIBLE, false)) {
+		if (intent.getBooleanExtra(FLAG_FLOAT_VIEW_VISIBLE, true)) {
 			if (imageView != null) {
 				imageView.setVisibility(View.VISIBLE);
 			}
@@ -96,6 +104,17 @@ public class FloatService extends Service implements OnTouchListener {
 			if (imageView != null) {
 				imageView.setVisibility(View.INVISIBLE);
 			}
+		}
+		int style = intent.getIntExtra(FLAG_FLOAT_VIEW_STYLE, -1);
+		if (style != -1) {
+			SettingCache.keepBtnStyle(getApplicationContext(), style);
+			if(imageView == null){
+				createFloatView();
+			} else {
+				setBtnBackGround(imageView);
+			}
+		} else if(imageView == null){
+			createFloatView();
 		}
 		return START_STICKY;
 	}
@@ -136,7 +155,7 @@ public class FloatService extends Service implements OnTouchListener {
 
 		gestureDetector = new GestureDetector(this, new GestureListener());
 		imageView = new ImageView(getApplicationContext());
-		imageView.setImageResource(R.drawable.launcher_icon);
+		setBtnBackGround(imageView);
 		imageView.setOnTouchListener(this);
 
 		if (imageView.getParent() == null) {
@@ -189,7 +208,7 @@ public class FloatService extends Service implements OnTouchListener {
 				+ layoutParams.y);
 		windowManager.updateViewLayout(imageView, layoutParams);
 	}
-
+	
 	private void autoMove() {
 		while (true) {
 			if (layoutParams.x <= 0 && layoutParams.x > -width / 2 + 5) {
@@ -274,4 +293,31 @@ public class FloatService extends Service implements OnTouchListener {
 
 	}
 
+	public void setBtnBackGround(ImageView btn) {
+		int style = SettingCache.readBtnStyle(getApplicationContext());
+		switch(style) {
+		case Constants.BTN_STYLE_0:
+			btn.setImageResource(R.drawable.launcher_icon);
+			break;
+		case Constants.BTN_STYLE_1:
+			btn.setImageResource(R.drawable.static_a_64);
+			break;
+		case Constants.BTN_STYLE_2:
+			btn.setImageResource(R.drawable.static_b_64);
+			break;
+		case Constants.BTN_STYLE_3:
+			btn.setImageResource(R.drawable.static_c_64);
+			break;
+		case Constants.BTN_STYLE_4:
+			btn.setImageResource(R.drawable.animation_screen_a);
+			animationDrawable = (AnimationDrawable) btn.getDrawable();  
+	        animationDrawable.start();
+			break;
+		case Constants.BTN_STYLE_5:
+			btn.setImageResource(R.drawable.animation_screen_b);
+			animationDrawable = (AnimationDrawable) btn.getDrawable();  
+	        animationDrawable.start();
+			break;
+		}
+	}
 }

@@ -9,8 +9,24 @@
     tools:context=".MainActivity" >
 
     <TextView
+        android:id="@+id/setting_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
-
+	
+    <Button 
+        android:id="@+id/setting_btn_btn_style"
+        android:layout_below="@+id/setting_title"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="#776655"
+        android:text="按钮样式"
+        android:textSize="16sp"
+        android:textColor="#111111"
+        />
+    
 </RelativeLayout>

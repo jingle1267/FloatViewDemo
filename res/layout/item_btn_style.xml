@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical">
+    <ImageView 
+        android:id="@+id/item_btn_style_image"
+        android:layout_marginLeft="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        />
+	<ImageView 
+        android:id="@+id/item_btn_style_choose_image"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/yes_style"
+        android:visibility="invisible"
+        />
+</RelativeLayout>

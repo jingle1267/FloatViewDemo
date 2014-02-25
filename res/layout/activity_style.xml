@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+		android:layout_height="60dp"
+        >
+        <Button 
+            android:id="@+id/style_go_back"
+            android:layout_width="60dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="返回"
+            android:layout_marginLeft="10dp"
+            android:background="#669922"
+            />
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="按钮样式"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+    </RelativeLayout>
+
+    <ListView 
+        android:id="@+id/style_list"
+        android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+        />
+</LinearLayout>
