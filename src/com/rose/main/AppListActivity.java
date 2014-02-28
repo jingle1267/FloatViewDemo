@@ -1,5 +1,6 @@
 package com.rose.main;
 
+import com.rose.adapter.AppListAdapter;
 import com.rose.tools.LogHelper;
 
 import android.app.Activity;

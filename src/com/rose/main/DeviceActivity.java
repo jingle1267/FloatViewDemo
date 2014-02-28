@@ -5,7 +5,9 @@ import com.rose.tools.LogHelper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
  */
 public class DeviceActivity extends BaseActivity {
 
+	private AudioManager audioManager;
+	private Vibrator vibrator;
 	private ViewGroup group;
 	
 	public static void startActivity(Context context) {
@@ -40,12 +44,50 @@ public class DeviceActivity extends BaseActivity {
 			// View view = group.getChildAt(i);
 			// view.setOnLongClickListener(this);
 		}
+		audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 	}
 	
 	public void clickOnItem(View view) {
 		if (isLongClick) {
 			isLongClick = false;
 			return;
+		}
+		switch (Integer.parseInt(view.getTag().toString())) {
+		case 1:
+			
+			break;
+		case 2:
+			
+			break;
+		case 3:
+			
+			break;
+		case 4:
+			vibrator.vibrate(50);
+			audioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_LOWER, 
+					AudioManager.USE_DEFAULT_STREAM_TYPE, 0);
+			break;
+		case 5:
+			
+			break;
+		case 6:
+			vibrator.vibrate(50);
+			audioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_RAISE, 
+					AudioManager.USE_DEFAULT_STREAM_TYPE, 0);
+			break;
+		case 7:
+			
+			break;
+		case 8:
+			
+			break;
+		case 9:
+			
+			break;
+
+		default:
+			break;
 		}
 	}
 	

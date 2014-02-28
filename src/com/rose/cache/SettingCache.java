@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class SettingCache {
+	@SuppressWarnings("unused")
 	private static final String TAG = "SettingCache";
 	private static final String PREFERENCES_NAME_SETTING = "setting_info";
 	private static final String SETTING_BTN_STYLE = "btn_style";

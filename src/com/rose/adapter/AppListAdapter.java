@@ -1,6 +1,8 @@
-package com.rose.main;
+package com.rose.adapter;
 
 import java.util.List;
+
+import com.rose.main.R;
 
 import android.content.Context;
 import android.content.Intent;
